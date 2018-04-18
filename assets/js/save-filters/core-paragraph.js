@@ -5,13 +5,13 @@ export class CoreParagraph {
   }
 
   hookCallback( attributes, name ) {
-    const content_return = wp.element.renderToString(
+    const contentReturn = wp.element.renderToString(
       wp.blocks.getSaveElement(
         wp.blocks.getBlockType( name ),
         attributes
       )
     );
-    return { content: content_return };
+    return { content: contentReturn };
   }
 
 }

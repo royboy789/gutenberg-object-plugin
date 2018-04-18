@@ -21,6 +21,7 @@ define( 'GutesArrayPluginFile', __FILE__ );
 use GutenbergArray\Scripts;
 use GutenbergArray\Database;
 use GutenbergArray\API;
+use GutenbergArray\Hooks;
 
 class GutenbergArraySave {
 
@@ -30,6 +31,7 @@ class GutenbergArraySave {
 		Scripts::init();
 		Database::init();
 		API::init();
+		Hooks::init();
 	}
 }
 

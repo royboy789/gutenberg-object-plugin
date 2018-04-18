@@ -12,9 +12,9 @@ class API {
 
 	public function __construct() {
 		add_action( 'rest_api_init', function () {
-			register_rest_route( 'gutes-db/v' . $this->version, '/(?P<id>\d+)', array(
+			register_rest_route( 'gutes-db/v' . $this->version, '/(?P<id>\d+)', [
 				'methods' => 'GET',
-				'callback' => [ $this, 'get_gutes_data' ],
+				'callback' => [ $this, 'get_editor_data' ],
 				'args' => [
 					'id' => [
 						'required' => true,
@@ -23,13 +23,13 @@ class API {
 						}
 					],
 				]
-			) );
+			]);
 		} );
 
 		add_action( 'rest_api_init', function () {
-			register_rest_route( 'gutes-db/v1', '/(?P<id>\d+)', array(
+			register_rest_route( 'gutes-db/v1', '/(?P<id>\d+)', [
 				'methods' => 'POST',
-				'callback' => [ $this, 'save_gutes_data' ],
+				'callback' => [ $this, 'save_editor_data' ],
 				'args' => [
 					'id' => [
 						'required' => true,
@@ -41,11 +41,11 @@ class API {
 						'required' => true,
 					],
 				]
-			) );
+			]);
 		} );
 	}
 
-	public function save_gutes_data( \WP_REST_Request $request ) {
+	public function save_editor_data( \WP_REST_Request $request ) {
 		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
 			return new \WP_Error( 'No Gutes', __( 'Missing Gutenberg', 'gutes-array' ) );
 		}
@@ -60,16 +60,14 @@ class API {
 
 		$return = [
 			'post_id' => $post_id,
-			'gutes_data_encoded' => json_encode( $data['gutes_data'] ),
-			'gutes_data' => $data['gutes_data'],
-			'save' => $this->save_gutes_db( $post_id, $data['gutes_data'] )
+			'save' => $this->save_editor_db( $post_id, $data['gutes_data'] )
 		];
 
 		return new \WP_REST_Response( $return );
 
 	}
 
-	public function get_gutes_data( \WP_REST_Request $request ) {
+	public function get_editor_data( \WP_REST_Request $request ) {
 
 		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
 			return new \WP_Error( 'No Gutes', __( 'Missing Gutenberg', 'gutes-array' ) );
@@ -86,7 +84,7 @@ class API {
 		$return = [
 			'is_gutes' => $is_gutes,
 			'post_id'  => $post_id,
-			'data' => ( $gutes_row = $this->get_gutes_db( $post_id ) ) ? json_decode( $gutes_row->gutes_array ) : false,
+			'data' => ( $gutes_row = $this->get_editor_db( $post_id ) ) ? json_decode( $gutes_row->gutes_array ) : false,
 		];
 
 		if ( isset( $data['_embed'] ) ) {
@@ -116,27 +114,27 @@ class API {
 		return $server->response_to_data( $response, false );
 	}
 
-	private function get_gutes_db( $post_id ) {
+	public function get_editor_db( $post_id ) {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . "gutes_arrays";
 		return $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = $post_id" );
 	}
 
-	private function save_gutes_db( $post_id, $gutes_data ) {
+	private function save_editor_db( $post_id, $gutes_data ) {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . "gutes_arrays";
 		$gutes_data_string = json_encode( $gutes_data );
-		$existing_row = $this->get_gutes_db( $post_id );
+		$existing_row = $this->get_editor_db( $post_id );
 
 		if ( ! $existing_row->id ) {
 			$insert =  $wpdb->query( $wpdb->prepare(
 					"INSERT INTO $table_name SET post_id = %d, gutes_array = '%s'",
-					array(
+					[
 						$post_id,
 						$gutes_data_string
-					)
+					]
 			));
 			if ( false === $insert ) {
 				$wpdb->print_error();
@@ -146,10 +144,10 @@ class API {
 		$existing_row->id = (int) $existing_row->id;
 		$update = $wpdb->query( $wpdb->prepare(
 			"UPDATE $table_name SET gutes_array = '%s' WHERE id = %d",
-			array(
+			[
 				$gutes_data_string,
 				$existing_row->id
-			)
+			]
 		));
 		if ( false === $update ) {
 			$wpdb->print_error();
