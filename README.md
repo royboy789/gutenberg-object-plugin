@@ -11,6 +11,20 @@ Data will be saved in a new database table `[prefix]_gutes_arrays`
 Included is 2 new API endpoints to save and get the data:  
 * `wp-json/gutes-db/v1/[post-id]` - Supports __GET__ & __POST__ 
 
+## GET  
+`GET: wp-json/gutes-db/v1/[post-id]`
+__Returns__
+* __is_gutes__: Is the post created with Gutenberg
+* __post_id__: Post ID
+* __data__: Gutenberg Data
+* ___embedded['post']__: _optional with \_embed_ - response from WP REST API for post  
+
+  
+## SAVE
+`POST: wp-json/gutes-db/v1/[post-id]`
+* __id__ - _required_ - post ID
+* __gutes_data__ - _required_ - Data array
+
 ## Hooks
 To send the data to the API to save we must first transform data. Using `wp.hooks` You can tie into this process by adding a filter  
 * namespace - 'gutes_array'
