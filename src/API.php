@@ -60,6 +60,8 @@ class API {
 
 		$return = [
 			'post_id' => $post_id,
+			'gutes_data_encoded' => json_encode( $data['gutes_data'] ),
+			'gutes_data' => $data['gutes_data'],
 			'save' => $this->save_gutes_db( $post_id, $data['gutes_data'] )
 		];
 
@@ -84,7 +86,7 @@ class API {
 		$return = [
 			'is_gutes' => $is_gutes,
 			'post_id'  => $post_id,
-			'data' => ( $gutes_row = $this->get_gutes_db( $post_id ) ) ? $gutes_row->gutes_array : false,
+			'data' => ( $gutes_row = $this->get_gutes_db( $post_id ) ) ? json_decode( $gutes_row->gutes_array ) : false,
 		];
 
 		if ( isset( $data['_embed'] ) ) {
@@ -125,23 +127,34 @@ class API {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . "gutes_arrays";
-		return $wpdb->update(
-			$table_name,
-			[
-				'post_id' => $post_id,
-				'gutes_array' => json_encode( $gutes_data ),
-			],
-			[
-				'post_id' => $post_id
-			],
-			[
-				'%d',
-				'%s',
-			],
-			[
-				'%d'
-			]
-		);
+		$gutes_data_string = json_encode( $gutes_data );
+		$existing_row = $this->get_gutes_db( $post_id );
+
+		if ( ! $existing_row->id ) {
+			$insert =  $wpdb->query( $wpdb->prepare(
+					"INSERT INTO $table_name SET post_id = %d, gutes_array = '%s'",
+					array(
+						$post_id,
+						$gutes_data_string
+					)
+			));
+			if ( false === $insert ) {
+				$wpdb->print_error();
+			}
+			return $insert;
+		}
+		$existing_row->id = (int) $existing_row->id;
+		$update = $wpdb->query( $wpdb->prepare(
+			"UPDATE $table_name SET gutes_array = '%s' WHERE id = %d",
+			array(
+				$gutes_data_string,
+				$existing_row->id
+			)
+		));
+		if ( false === $update ) {
+			$wpdb->print_error();
+		}
+		return $update;
 	}
 
 }

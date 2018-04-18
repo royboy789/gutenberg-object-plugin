@@ -20,7 +20,7 @@ class Database {
                     id mediumint(9) NOT NULL AUTO_INCREMENT,
                     post_id mediumint(9) NOT NULL,
                     time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    `gutes_array` varchar(55) NOT NULL,
+                    `gutes_array` LONGTEXT NOT NULL,
                     PRIMARY KEY  (id)
                 ) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

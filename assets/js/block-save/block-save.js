@@ -20,17 +20,16 @@ export class SaveBlock {
       }
 
       this.lastDataSent = blocks;
-
-      // jQuery.ajax({
-      //   url: '/wp-json/gutes-db/v1/67',
-      //   method: 'POST',
-      //   data: {
-      //     post_id: 67,
-      //     gutes_data: blocks
-      //   }
-      // }).then(function(res){
-      //   console.log( res );
-      // });
+      jQuery.ajax({
+        url: '/wp-json/gutes-db/v1/67',
+        method: 'POST',
+        data: {
+          post_id: 67,
+          gutes_data: blocks
+        }
+      }).then(function(res){
+        console.log( res );
+      });
     }
 
     this.lastIsSaving = isSaving;
@@ -44,10 +43,9 @@ export class SaveBlock {
       new_blocks.push({
         uid: block.uid,
         name: block.name,
-        data: wp.hooks.applyFilters( `clean_data_${hookName}`, block.attributes )
+        data: wp.hooks.applyFilters( `clean_data_${hookName}`, block.attributes, block.name, 99 )
       })
     }
-    console.log( new_blocks );
     return new_blocks;
   }
 

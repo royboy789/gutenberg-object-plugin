@@ -1,6 +1,13 @@
 # Gutenberg Array Plugin
 The purpose of this plugin is to save Gutenberg (New WordPress Editor) data as an array in the database
 
+## Installation
+Developer Plugin Only
+* Clone
+* Run `npm install`
+* `npm run dev` / `npm run build`
+* Activate plugin.
+
 ## WHY
 While the new UI for the WordPress Editor is amazing, the data as it is stored lends a lot ot be desired with HTML comments as a basis for data
 
