@@ -14,6 +14,9 @@ While the new UI for the WordPress Editor is amazing, the data as it is stored l
 ## WHERE
 Data will be saved in a new database table `[prefix]_gutes_arrays`
 
+## REST API
+I have included a filter to adda `editor_block` to the normal post content response.
+
 ## API
 Included is 2 new API endpoints to save and get the data:  
 * `wp-json/gutes-db/v1/[post-id]` - Supports __GET__ & __POST__ 
