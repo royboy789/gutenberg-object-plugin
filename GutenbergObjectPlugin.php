@@ -1,9 +1,9 @@
 <?php
 /*
  * @wordpress-plugin
- * Plugin Name:       Gutenberg Array Save
- * Description:       Save Gutenberg Data as a clean array in wp_gutenberg
- * Version:           0.0.1
+ * Plugin Name:       Gutenberg Object Plugin
+ * Description:       Saves Gutenberg data as array into DB & adds API to access it
+ * Version:           1.0.0
  * Author:            Roy Sivan
  * Author URI:        https://roysivan.com
  * License:           GPL-3.0+
@@ -23,7 +23,7 @@ use GutenbergArray\Database;
 use GutenbergArray\API;
 use GutenbergArray\Hooks;
 
-class GutenbergArraySave {
+class GutenbergObjectPlugin {
 
 	use Singleton;
 
@@ -35,4 +35,4 @@ class GutenbergArraySave {
 	}
 }
 
-$GutesArraySave = GutenbergArraySave::init();
+$GutesArraySave = GutenbergObjectPlugin::init();
