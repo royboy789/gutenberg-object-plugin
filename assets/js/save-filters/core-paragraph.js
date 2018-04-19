@@ -1,20 +1,14 @@
-export class CoreParagraph {
+import { CleanFilter } from './CleanFilter';
+
+export class CoreParagraph extends CleanFilter {
 
   constructor() {
-    wp.hooks.addFilter( 'clean_data_core-paragraph', 'gutes-array', this.hookCallback.bind(this) );
+    super( 'core-paragraph' );
   }
 
   hookCallback( attributes, name ) {
-    let new_attr = attributes;
-    let contentReturn = wp.element.renderToString(
-      wp.blocks.getSaveElement(
-        wp.blocks.getBlockType( name ),
-        new_attr
-      )
-    );
-    new_attr.rendered_content = contentReturn;
-    delete new_attr.content;
-    return new_attr;
+    attributes.content = wp.element.renderToString( attributes.content );
+    return attributes;
   }
 
 }
