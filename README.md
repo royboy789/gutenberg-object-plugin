@@ -1,8 +1,7 @@
-# Gutenberg Array Plugin
-The purpose of this plugin is to save Gutenberg (New WordPress Editor) data as an array in the database
+# Gutenberg Object Plugin
+The purpose of this plugin is to save Gutenberg (New WordPress Editor) data as an array in the database which is accessible via the REST API.
 
 ## Installation
-Developer Plugin Only
 * Clone
 * Run `npm install`
 * `npm run dev` / `npm run build`
@@ -17,11 +16,11 @@ Data will be saved in a new database table `[prefix]_gutes_arrays`
 ## REST API
 I have included a filter to adda `editor_block` to the normal post content response.
 
-## API
-Included is 2 new API endpoints to save and get the data:  
+## API ENDPOINTS
+Includes 1 new route:  
 * `wp-json/gutes-db/v1/[post-id]` - Supports __GET__ & __POST__ 
 
-## GET  
+### GET  
 `GET: wp-json/gutes-db/v1/[post-id]`
 __Returns__
 * __is_gutes__: Is the post created with Gutenberg
@@ -30,7 +29,7 @@ __Returns__
 * ___embedded['post']__: _optional with \_embed_ - response from WP REST API for post  
 
   
-## SAVE
+### SAVE
 `POST: wp-json/gutes-db/v1/[post-id]`
 * __id__ - _required_ - post ID
 * __gutes_data__ - _required_ - Data array
