@@ -39,9 +39,9 @@ export class SaveBlock {
 
   }
 
-  cleanData( data ) {
+  cleanData( blocks ) {
     let newBlocks = [];
-    for ( let block of data ) {
+    for ( let block of blocks ) {
       let blockName = block.name.replace( '/', '-' );
       newBlocks.push({
         uid: block.uid,
