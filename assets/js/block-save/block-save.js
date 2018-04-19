@@ -59,7 +59,9 @@ export class SaveBlock {
         },
         method: 'POST',
       } ).then(function(res){
-        console.log( res );
+
+      }, function(err) {
+        console.log( err );
       });
 
     }
