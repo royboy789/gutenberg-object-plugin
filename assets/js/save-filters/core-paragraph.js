@@ -13,6 +13,7 @@ export class CoreParagraph {
       )
     );
     new_attr.rendered_content = contentReturn;
+    delete new_attr.content;
     return new_attr;
   }
 
