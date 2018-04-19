@@ -11,7 +11,8 @@ export class CoreParagraph {
         attributes
       )
     );
-    return { content: contentReturn };
+    attributes.content = contentReturn;
+    return attributes;
   }
 
 }

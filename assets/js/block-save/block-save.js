@@ -42,11 +42,11 @@ export class SaveBlock {
   cleanData( data ) {
     let newBlocks = [];
     for ( let block of data ) {
-      let hookName = block.name.replace( '/', '-' );
+      let blockName = block.name.replace( '/', '-' );
       newBlocks.push({
         uid: block.uid,
         name: block.name,
-        data: wp.hooks.applyFilters( `clean_data_${hookName}`, block.attributes, block.name, 99 )
+        data: wp.hooks.applyFilters( `clean_data_${blockName}`, block.attributes, block.name, 99 )
       })
     }
     return newBlocks;
