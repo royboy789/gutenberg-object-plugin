@@ -11,6 +11,7 @@ import { CorePreformatted } from './core-preformatted';
 import { CorePullquote } from './core-pullquote';
 import { CoreQuote } from './core-quote';
 import { CoreSubhead } from './core-subheading';
+import { CoreTable } from './core-table';
 
 export class SaveFilters {
   constructor() {
@@ -27,5 +28,6 @@ export class SaveFilters {
     new CorePullquote();
     new CoreQuote();
     new CoreSubhead();
+    new CoreTable();
   }
 }
