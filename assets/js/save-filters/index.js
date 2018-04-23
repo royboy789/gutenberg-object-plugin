@@ -13,6 +13,7 @@ import { CoreQuote } from './core-quote';
 import { CoreSubhead } from './core-subheading';
 import { CoreTable } from './core-table';
 import { CoreVerse } from './core-verse';
+import { CoreVideo } from './core-video';
 
 export class SaveFilters {
   constructor() {
@@ -31,5 +32,6 @@ export class SaveFilters {
     new CoreSubhead();
     new CoreTable();
     new CoreVerse();
+    new CoreVideo();
   }
 }
