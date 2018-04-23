@@ -7,6 +7,7 @@ import { CoreImage } from './core-image';
 import { CoreEmbed } from './core-embed';
 import { CoreHeading } from './core-heading';
 import { CoreList } from './core-list';
+import { CorePreFormatted } from './core-preformatted';
 
 export class SaveFilters {
   constructor() {
@@ -19,5 +20,6 @@ export class SaveFilters {
     new CoreEmbed();
     new CoreHeading();
     new CoreList();
+    new CorePreFormatted();
   }
 }
