@@ -8,7 +8,7 @@ export class CoreQuote extends CleanFilter {
 
   hookCallback( attributes, name, innerBlocks ) {
     for( let [index] of attributes.value.entries() ) {
-      attributes.value[index].children = wp.element.renderToString( attributes.value[index].children );
+      attributes.value[index] = wp.element.renderToString( attributes.value[index].children );
     }
     attributes.citation = wp.element.renderToString( attributes.citation );
     return attributes;
