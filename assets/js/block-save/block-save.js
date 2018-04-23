@@ -55,7 +55,7 @@ export class SaveBlock {
         path: '/gutes-db/v1/' + postId,
         data: {
           post_id: postId,
-          gutes_data: blocks_dup
+          gutes_data: blocks_dup.length ? blocks_dup : false
         },
         method: 'POST',
       } ).then(function(res){
