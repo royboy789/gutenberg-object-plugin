@@ -5,7 +5,7 @@ import { CoreTextColumns } from './core-text-columns';
 import { CoreColumns } from './core-columns';
 import { CoreImage } from './core-image';
 import { CoreEmbed } from './core-embed';
-
+import { CoreHeading } from './core-heading';
 
 export class SaveFilters {
   constructor() {
@@ -16,5 +16,6 @@ export class SaveFilters {
     new CoreColumns();
     new CoreImage();
     new CoreEmbed();
+    new CoreHeading();
   }
 }
