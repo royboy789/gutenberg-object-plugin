@@ -9,6 +9,7 @@ import { CoreHeading } from './core-heading';
 import { CoreList } from './core-list';
 import { CorePreformatted } from './core-preformatted';
 import { CorePullquote } from './core-pullquote';
+import { CoreQuote } from './core-quote';
 
 export class SaveFilters {
   constructor() {
@@ -23,5 +24,6 @@ export class SaveFilters {
     new CoreList();
     new CorePreformatted();
     new CorePullquote();
+    new CoreQuote();
   }
 }
