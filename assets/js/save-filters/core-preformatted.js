@@ -1,6 +1,6 @@
 import { CleanFilter } from './CleanFilter';
 
-export class CorePreFormatted extends CleanFilter {
+export class CorePreformatted extends CleanFilter {
 
   constructor() {
     super( 'core-preformatted' );
