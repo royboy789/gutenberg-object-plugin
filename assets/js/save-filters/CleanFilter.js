@@ -4,7 +4,7 @@ export class CleanFilter {
     wp.hooks.addFilter( 'clean_data_' + block, 'gutes-array', this.hookCallback.bind(this) );
   }
 
-  hookCallback( attributes, name ) {
+  hookCallback( name, attributes, innerBlocks ) {
     return attributes;
   }
 
