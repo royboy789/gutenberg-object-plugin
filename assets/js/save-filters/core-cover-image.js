@@ -6,7 +6,7 @@ export class CoreCoverImage extends CleanFilter {
     super( 'core-cover-image' );
   }
 
-  hookCallback( name, attributes, innerBlocks ) {
+  hookCallback( attributes, name, innerBlocks ) {
     attributes.title = wp.element.renderToString( attributes.title );
     return attributes;
   }

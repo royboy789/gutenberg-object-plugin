@@ -84,7 +84,7 @@ export class SaveBlock {
       newBlocks.push({
         uid: block.uid,
         name: block.name,
-        data: wp.hooks.applyFilters( `clean_data_${blockName}`, block.name, block.attributes, block.innerBlocks )
+        data: wp.hooks.applyFilters( `clean_data_${blockName}`, block.attributes, block.name, block.innerBlocks )
       })
     }
     return newBlocks;

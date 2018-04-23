@@ -6,7 +6,7 @@ export class CoreParagraph extends CleanFilter {
     super( 'core-paragraph' );
   }
 
-  hookCallback( name, attributes, innerBlocks ) {
+  hookCallback( attributes, name, innerBlocks ) {
     attributes.content = wp.element.renderToString( attributes.content );
     return attributes;
   }

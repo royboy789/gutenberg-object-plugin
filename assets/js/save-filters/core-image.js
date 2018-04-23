@@ -6,7 +6,7 @@ export class CoreImage extends CleanFilter {
     super( 'core-image' );
   }
 
-  hookCallback( name, attributes, innerBlocks ) {
+  hookCallback( attributes, name, innerBlocks ) {
     if ( attributes.caption ) {
       attributes.caption = wp.element.renderToString( attributes.caption );
     }

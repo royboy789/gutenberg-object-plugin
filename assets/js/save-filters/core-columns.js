@@ -6,7 +6,7 @@ export class CoreColumns extends CleanFilter {
     super( 'core-columns' );
   }
 
-  hookCallback( name, attributes, innerBlocks ) {
+  hookCallback( attributes, name, innerBlocks ) {
     if ( ! innerBlocks.length ) {
       return attributes;
     }
