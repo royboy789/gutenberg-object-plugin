@@ -4,6 +4,7 @@ import { CoreButton } from './core-button';
 import { CoreTextColumns } from './core-text-columns';
 import { CoreColumns } from './core-columns';
 import { CoreImage } from './core-image';
+import { CoreEmbed } from './core-embed';
 
 
 export class SaveFilters {
@@ -14,5 +15,6 @@ export class SaveFilters {
     new CoreTextColumns();
     new CoreColumns();
     new CoreImage();
+    new CoreEmbed();
   }
 }
