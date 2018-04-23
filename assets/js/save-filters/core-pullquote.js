@@ -8,8 +8,6 @@ export class CorePullquote extends CleanFilter {
 
   hookCallback( attributes, name, innerBlocks ) {
     for( let [index] of attributes.value.entries() ) {
-      console.log( index );
-      console.log( attributes.value[index] );
       attributes.value[index].children = wp.element.renderToString( attributes.value[index].children );
     }
     attributes.citation = wp.element.renderToString( attributes.citation );
