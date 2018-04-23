@@ -12,6 +12,7 @@ import { CorePullquote } from './core-pullquote';
 import { CoreQuote } from './core-quote';
 import { CoreSubhead } from './core-subheading';
 import { CoreTable } from './core-table';
+import { CoreVerse } from './core-verse';
 
 export class SaveFilters {
   constructor() {
@@ -29,5 +30,6 @@ export class SaveFilters {
     new CoreQuote();
     new CoreSubhead();
     new CoreTable();
+    new CoreVerse();
   }
 }
