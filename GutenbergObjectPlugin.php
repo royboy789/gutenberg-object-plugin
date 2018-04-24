@@ -14,6 +14,7 @@
 namespace GutenbergArray;
 
 require_once 'vendor/autoload.php';
+require_once 'src/Helpers.php';
 
 define( 'GutesArraySaveUrl', plugin_dir_url( __FILE__ ) );
 define( 'GutesArrayPluginFile', __FILE__ );

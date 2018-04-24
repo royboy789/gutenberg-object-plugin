@@ -42,3 +42,6 @@ To send the data to the API to save we must first transform data. Using `wp.hook
 
 __EXAMPLE__    
 `wp.hooks.addFilter( 'clean_data_core-paragraph', 'gutes-array', callback );`  
+
+## Helper Functions
+* `get_editor_blocks( $post_id );` - returns array of block data 

@@ -4,6 +4,12 @@ namespace GutenbergArray;
 
 use WP_REST_Posts_Controller;
 
+/**
+ * Class API - this is where custom API routes are defined.
+ * For the filter adding in editor_blocks to POST response see src/Hooks.php
+ *
+ * @package GutenbergArray
+ */
 class API {
 
 	use Singleton;
