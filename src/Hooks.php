@@ -11,7 +11,6 @@ class Hooks {
 	private $API;
 
 	public function __construct() {
-		$this->API = API::init();
 		add_action( 'rest_api_init', [ $this, 'gutes_array_fields' ] );
 	}
 
@@ -22,7 +21,9 @@ class Hooks {
 	}
 
 	public function get_block_data( $post ) {
-		if ( $this->API ) { return; }
+		if ( $this->API ) {
+			$this->API = API::init();
+		}
 		$gutes_data = $this->API->get_editor_db( $post['id'] );
 		return json_decode( $gutes_data->gutes_array );
 	}
