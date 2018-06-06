@@ -18,7 +18,7 @@ export class CoreColumns extends CleanFilter {
 
     for( const[index, block] of innerBlocks.entries() ) {
       let blockName = block.name.replace( '/', '-' );
-      innerBlocks[index] = wp.hooks.applyFilters( `clean_data_${blockName}`, block.name, block.attributes, block.innerBlocks )
+      innerBlocks[index] = wp.hooks.applyFilters( `clean_data_${blockName}`, block.attributes, block.name, block.innerBlocks )
       innerBlocks[index].name = block.name;
       if ( 'column-1' === block.attributes.layout ) {
         columns.column_1.push( innerBlocks[index] );
