@@ -22,6 +22,7 @@ class Hooks {
 	}
 
 	public function get_block_data( $post ) {
+		if ( $this->API ) { return; }
 		$gutes_data = $this->API->get_editor_db( $post['id'] );
 		return json_decode( $gutes_data->gutes_array );
 	}

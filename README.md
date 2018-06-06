@@ -3,6 +3,7 @@ The purpose of this plugin is to save Gutenberg (New WordPress Editor) data as a
 
 ## Installation
 * Clone
+* Run `composer install`
 * Run `npm install`
 * `npm run dev` / `npm run build`
 * Activate plugin.
