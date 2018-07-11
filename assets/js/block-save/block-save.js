@@ -55,11 +55,12 @@ export class SaveBlock {
         path: '/gutes-db/v1/' + postId,
         data: {
           post_id: postId,
-          gutes_data: blocks_dup.length ? blocks_dup : false
+          gutes_data: blocks_dup.length ? JSON.stringify( blocks_dup ) : false
         },
         method: 'POST',
+        dataType: 'json',
       } ).then(function(res){
-
+        console.log( res );
       }, function(err) {
         console.log( err );
       });
