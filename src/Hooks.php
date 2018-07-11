@@ -21,7 +21,7 @@ class Hooks {
 
 		if ( defined( 'GUTENBERG_OBJECT_PLUGIN_CPTS' ) ) {
 			$cpts = GUTENBERG_OBJECT_PLUGIN_CPTS;
-			$cpts = explode( $cpts, ',' );
+			$cpts = explode( ',', $cpts );
 
 			foreach( $cpts as $cpt ) {
 				register_rest_field( $cpt, 'editor_blocks', [
