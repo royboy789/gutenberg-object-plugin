@@ -59,6 +59,7 @@ class API {
 		$data = $request->get_params();
 		$post_id = (int) $data['id'];
 		$is_gutes = $this->is_gutes( $post_id );
+		$data['gutes_data'] = json_decode( $data['gutes_data'] );
 
 		if ( ! $is_gutes ) {
 			return new \WP_Error( 'Not Gutes', __( 'Not Created Using Gutenberg', 'gutes-array' ), [ 'post_id' => $post_id ] );
@@ -66,7 +67,7 @@ class API {
 
 		$return = [
 			'post_id' => $post_id,
-			'save' => $this->save_editor_db( $post_id, $data['gutes_data'] )
+			'save' => $this->save_editor_db( $post_id, $data['gutes_data'] ),
 		];
 
 		return new \WP_REST_Response( $return );
@@ -123,6 +124,7 @@ class API {
 	public function get_editor_db( $post_id ) {
 		global $wpdb;
 
+		$post_id = (int) $post_id;
 		$table_name = $wpdb->prefix . "gutes_arrays";
 		return $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = $post_id" );
 	}
@@ -134,7 +136,7 @@ class API {
 		$gutes_data_string = json_encode( $gutes_data );
 		$existing_row = $this->get_editor_db( $post_id );
 
-		if ( ! $existing_row->id ) {
+		if ( ! is_object( $existing_row ) || ! $existing_row->id ) {
 			$insert =  $wpdb->query( $wpdb->prepare(
 					"INSERT INTO $table_name SET post_id = %d, gutes_array = '%s'",
 					[
