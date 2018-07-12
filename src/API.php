@@ -1,6 +1,6 @@
 <?php
 
-namespace GutenbergArray;
+namespace GutesObjectPlugin;
 
 use WP_REST_Posts_Controller;
 
@@ -8,7 +8,7 @@ use WP_REST_Posts_Controller;
  * Class API - this is where custom API routes are defined.
  * For the filter adding in editor_blocks to POST response see src/Hooks.php
  *
- * @package GutenbergArray
+ * @package GutesObjectPlugin
  */
 class API {
 

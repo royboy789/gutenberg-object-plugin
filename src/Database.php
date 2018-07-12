@@ -1,6 +1,6 @@
 <?php
 
-namespace GutenbergArray;
+namespace GutesObjectPlugin;
 
 
 class Database {

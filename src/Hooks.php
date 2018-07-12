@@ -1,8 +1,8 @@
 <?php
 
-namespace GutenbergArray;
+namespace GutesObjectPlugin;
 
-use GutenbergArray\API;
+use GutesObjectPlugin\API;
 
 class Hooks {
 

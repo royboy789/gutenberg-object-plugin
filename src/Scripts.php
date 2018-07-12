@@ -1,7 +1,8 @@
 <?php
 
-namespace GutenbergArray;
+namespace GutesObjectPlugin;
 
+use GutesObjectPlugin\GutesObjectPlugin;
 
 class Scripts {
 
@@ -10,7 +11,7 @@ class Scripts {
 	}
 
 	public function gutenbger_array_save_scripts() {
-		wp_enqueue_script( 'gutes-array-save', GutesArraySaveUrl . 'build/js/gutenberg-db.build.js', [ 'wp-blocks', 'wp-element' ], true );
+		wp_enqueue_script( 'gutes-array-save',  GutesObjectPlugin::$GutesObjectPluginUrl . 'build/js/gutenberg-db.build.js', [ 'wp-blocks', 'wp-element' ], true );
 	}
 
 }
