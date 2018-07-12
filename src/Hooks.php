@@ -6,10 +6,10 @@ use GutenbergArray\API;
 
 class Hooks {
 
-	private $API;
+	private $api;
 
 	public function __construct( API $api ) {
-		$this->API = $api;
+		$this->api = $api;
 		add_action( 'rest_api_init', [ $this, 'gutes_array_fields' ] );
 	}
 
@@ -31,7 +31,7 @@ class Hooks {
 	}
 
 	public function get_block_data( $post ) {
-		$gutes_data = $this->API->get_editor_db( $post['id'] );
+		$gutes_data = $this->api->get_editor_db( $post['id'] );
 		if ( ! is_object( $gutes_data ) ) {
 			return 'Error Getting Editor DB ' . $post['id'];
 		}
