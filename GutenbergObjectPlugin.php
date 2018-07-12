@@ -31,4 +31,4 @@ use GutenbergArray\Hooks;
 $scripts = new Scripts();
 $database = new Database();
 $api = new API();
-$hooks = new Hooks();
+$hooks = new Hooks( $api );
