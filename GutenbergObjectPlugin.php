@@ -13,7 +13,11 @@
 
 namespace GutenbergArray;
 
-require_once 'vendor/autoload.php';
+
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require_once 'vendor/autoload.php';
+}
+
 require_once 'src/Helpers.php';
 
 define( 'GutesArraySaveUrl', plugin_dir_url( __FILE__ ) );
@@ -37,3 +41,6 @@ class GutenbergObjectPlugin {
 }
 
 $GutesArraySave = GutenbergObjectPlugin::init();
+
+
+
