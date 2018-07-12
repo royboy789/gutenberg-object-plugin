@@ -12,8 +12,6 @@ use WP_REST_Posts_Controller;
  */
 class API {
 
-	use Singleton;
-
 	private $version = '1';
 
 	/**

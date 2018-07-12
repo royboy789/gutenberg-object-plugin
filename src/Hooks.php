@@ -6,8 +6,6 @@ use GutenbergArray\API;
 
 class Hooks {
 
-	use Singleton;
-
 	private $API;
 
 	public function __construct() {
@@ -33,7 +31,7 @@ class Hooks {
 
 	public function get_block_data( $post ) {
 		if ( ! $this->API ) {
-			$this->API = API::init();
+			$this->API = new API();
 		}
 		$gutes_data = $this->API->get_editor_db( $post['id'] );
 		if ( ! is_object( $gutes_data ) ) {

@@ -5,8 +5,6 @@ namespace GutenbergArray;
 
 class Database {
 
-	use Singleton;
-
 	public function __construct() {
 		register_activation_hook( GutesArrayPluginFile, [ $this, 'activate_gutes_array_save' ] );
 		register_deactivation_hook( GutesArrayPluginFile, [ $this, 'deactivate_gutes_array_save' ] );

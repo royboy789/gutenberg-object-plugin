@@ -24,16 +24,7 @@ use GutenbergArray\Database;
 use GutenbergArray\API;
 use GutenbergArray\Hooks;
 
-class GutenbergObjectPlugin {
-
-	use Singleton;
-
-	public function __construct() {
-		Scripts::init();
-		Database::init();
-		API::init();
-		Hooks::init();
-	}
-}
-
-$GutesArraySave = GutenbergObjectPlugin::init();
+$scripts = new Scripts();
+$database = new Database();
+$api = new API();
+$hooks = new Hooks();

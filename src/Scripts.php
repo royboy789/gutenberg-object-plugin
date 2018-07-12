@@ -5,8 +5,6 @@ namespace GutenbergArray;
 
 class Scripts {
 
-	use Singleton;
-
 	public function __construct() {
 		add_action( 'enqueue_block_editor_assets', [ $this, 'gutenbger_array_save_scripts' ] );
 	}
