@@ -1,16 +1,15 @@
 <?php
 
-namespace GutenbergArray;
+namespace GutesObjectPlugin;
 
-use GutenbergArray\API;
+use GutesObjectPlugin\API;
 
 class Hooks {
 
-	use Singleton;
+	private $api;
 
-	private $API;
-
-	public function __construct() {
+	public function __construct( API $api ) {
+		$this->api = $api;
 		add_action( 'rest_api_init', [ $this, 'gutes_array_fields' ] );
 	}
 
@@ -32,10 +31,7 @@ class Hooks {
 	}
 
 	public function get_block_data( $post ) {
-		if ( ! $this->API ) {
-			$this->API = API::init();
-		}
-		$gutes_data = $this->API->get_editor_db( $post['id'] );
+		$gutes_data = $this->api->get_editor_db( $post['id'] );
 		if ( ! is_object( $gutes_data ) ) {
 			return 'Error Getting Editor DB ' . $post['id'];
 		}
