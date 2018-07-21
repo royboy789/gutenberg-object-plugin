@@ -2,12 +2,14 @@
 
 namespace GutesObjectPlugin;
 
+use GutesObjectPlugin\GutesObjectPlugin;
+
 
 class Database {
 
-	public function __construct() {
-		register_activation_hook( GutesArrayPluginFile, [ $this, 'activate_gutes_array_save' ] );
-		register_deactivation_hook( GutesArrayPluginFile, [ $this, 'deactivate_gutes_array_save' ] );
+	public function create() {
+		register_activation_hook( GutesObjectPlugin::$GutesObjectPluginFile, [ $this, 'activate_gutes_array_save' ] );
+		register_deactivation_hook( GutesObjectPlugin::$GutesObjectPluginFile, [ $this, 'deactivate_gutes_array_save' ] );
 	}
 
 	public function activate_gutes_array_save() {
