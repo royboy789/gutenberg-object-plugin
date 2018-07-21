@@ -10,7 +10,6 @@ export class CoreList extends CleanFilter {
     for ( let [ index, value ] of attributes.values.entries() ) {
       attributes.values[index] = wp.element.renderToString( attributes.values[index] );
     }
-    attributes.listType = attributes.nodeName.toLowerCase();
     return attributes;
   }
 

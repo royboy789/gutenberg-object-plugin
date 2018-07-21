@@ -31,9 +31,19 @@ class Hooks {
 	}
 
 	public function get_block_data( $post ) {
-		$gutes_data = $this->api->get_editor_db( $post['id'] );
+		$post = get_post( $post['id'] );
+		// If new post, new content will exist.
+		if ( empty( $post->post_content ) ) {
+			return true;
+		}
+
+		if ( ! gutenberg_content_has_blocks( $post->post_content ) ) {
+			return false;
+		}
+
+		$gutes_data = $this->api->get_editor_db( $post->ID );
 		if ( ! is_object( $gutes_data ) ) {
-			return 'Error Getting Editor DB ' . $post['id'];
+			return 'Error Getting Editor DB ' . $post->ID;
 		}
 		return json_decode( $gutes_data->gutes_array );
 	}
