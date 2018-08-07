@@ -42,7 +42,20 @@ To send the data to the API to save we must first transform data. Using `wp.hook
 * data - data sent and returned is an array of the attributes
 
 __EXAMPLE__    
-`wp.hooks.addFilter( 'clean_data_core-paragraph', 'gutes-array', callback );`  
+`wp.hooks.addFilter( 'clean_data_core-paragraph', 'gutes-array', callback );`
+
+## Adding editor_blocks to other CPT Responses
+__V 1.1.0+__  
+Do you have another CPT (post type) that you are using Gutenberg with? Great! all you have to do is define `GUTENBERG_OBJECT_PLUGIN_CPTS` before `rest_api_init` with a comma separated list of CPTs.
+```
+add_action( 'init', 'my_custom_cpts', 10 );
+function my_custom_cpts() {
+    if ( ! defined( 'GUTENBERG_OBJECT_PLUGIN_CPTS' ) ) {
+        define( 'GUTENBERG_OBJECT_PLUGIN_CPTS', 'product,page,other_cpt' );    
+    }
+}
+```
+ Once `GUTENBERG_OBJECT_PLUGIN_CPTS` is defined as a comma separated list the `editor_block` data will apaper in that CPT's API response    
 
 ## Helper Functions
 * `<?php get_editor_blocks( $post_id ); ?>` - returns array of block data
