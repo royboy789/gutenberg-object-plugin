@@ -19,7 +19,8 @@ I have included a filter to adda `editor_block` to the normal post content respo
 
 ## API ENDPOINTS
 Includes 1 new route:  
-* `wp-json/gutes-db/v1/[post-id]` - Supports __GET__ & __POST__ 
+* `wp-json/gutes-db/v1/[post-id]` - Supports __GET__ & __POST__
+* `wp-json/gutes-db/v1/[post-id]/revisions` - Supports __GET__ only 
 
 ### GET  
 `GET: wp-json/gutes-db/v1/[post-id]`

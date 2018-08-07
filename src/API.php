@@ -42,7 +42,7 @@ class API {
 		]);
 
 		// Get Gutes Revision.
-		register_rest_route( $this->namespace, '/revisions/(?P<id>\d+)', [
+		register_rest_route( $this->namespace, '/(?P<id>\d+)/revisions', [
 			'methods' => 'GET',
 			'callback' => [ $this, 'get_revision_data' ],
 			'args' => [
