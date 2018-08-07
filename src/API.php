@@ -12,7 +12,7 @@ use WP_REST_Posts_Controller;
  */
 class API {
 
-	private $version = '1';
+	private $namespace = 'gutes-db/v1';
 
 	/**
 	 * API constructor.
@@ -24,12 +24,11 @@ class API {
 	}
 
 	/**
-	 * Rest API Init Callback
-	 * Create Custom Endpoints
-	 *
+	 * API init
 	 */
-	public function gutes_array_api_init() {
-		register_rest_route( 'gutes-db/v' . $this->version, '/(?P<id>\d+)', [
+	public function gutes_db_api_init() {
+		// GET Gutes Data.
+		register_rest_route( $this->namespace, '/(?P<id>\d+)', [
 			'methods' => 'GET',
 			'callback' => [ $this, 'get_editor_data' ],
 			'args' => [
@@ -42,7 +41,21 @@ class API {
 			]
 		]);
 
-		register_rest_route( 'gutes-db/v1', '/(?P<id>\d+)', [
+		// Get Gutes Revision.
+		register_rest_route( $this->namespace, '/(?P<id>\d+)/revisions', [
+			'methods' => 'GET',
+			'callback' => [ $this, 'get_revision_data' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+			]
+		]);
+
+		register_rest_route( $this->namespace, '/(?P<id>\d+)', [
 			'methods' => 'POST',
 			'callback' => [ $this, 'save_editor_data' ],
 			'args' => [
@@ -60,7 +73,7 @@ class API {
 	}
 
 	/**
-	 * POST Callback
+	 * Save Gutes Data.
 	 *
 	 * @param \WP_REST_Request $request
 	 *
@@ -142,13 +155,12 @@ class API {
 		return gutenberg_content_has_blocks( $post->post_content );
 	}
 
-
 	/**
-	 * Get an embedded post
+	 * Get Embedded post
 	 *
 	 * @param $post_id
 	 *
-	 * @return array
+	 * @return mixed
 	 */
 	private function get_embedded_post( $post_id ) {
 		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts' );
@@ -159,11 +171,11 @@ class API {
 	}
 
 	/**
-	 * Get Data from DB
+	 * Get Gutes Data from DB.
 	 *
 	 * @param $post_id
 	 *
-	 * @return array|null|object|void
+	 * @return mixed
 	 */
 	public function get_editor_db( $post_id ) {
 		global $wpdb;
@@ -174,12 +186,12 @@ class API {
 	}
 
 	/**
-	 * Save Data to DB
+	 * Save Gutes Data to DB.
 	 *
 	 * @param $post_id
 	 * @param $gutes_data
 	 *
-	 * @return false|int
+	 * @return mixed
 	 */
 	private function save_editor_db( $post_id, $gutes_data ) {
 		global $wpdb;
@@ -213,6 +225,32 @@ class API {
 			$wpdb->print_error();
 		}
 		return $update;
+	}
+
+	/**
+	 * Get Gutes data from revision.
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Request
+	 */
+	public function get_revision_data( \WP_REST_Request $request ) {
+
+		if ( ! function_exists( 'gutenberg_parse_blocks' ) ) {
+			return new \WP_Error( 'no gutes', __( 'No Gutes do_blocks' ) );
+		}
+
+		$data = $request->get_params();
+		$post_id = $data['id'];
+
+		$data['revisions'] = wp_get_post_revisions( $post_id );
+
+		foreach( $data['revisions'] as $key => $value ) {
+			$data['revisions'][$key]->editor_blocks = gutenberg_parse_blocks( $value->post_content );
+		}
+
+
+		return new \WP_REST_Response( $data );
 	}
 
 }
