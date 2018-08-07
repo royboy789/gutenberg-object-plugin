@@ -14,43 +14,68 @@ class API {
 
 	use Singleton;
 
-	private $version = '1';
+	private $namespace = 'gutes-db/v1';
 
 	public function __construct() {
-		add_action( 'rest_api_init', function () {
-			register_rest_route( 'gutes-db/v' . $this->version, '/(?P<id>\d+)', [
-				'methods' => 'GET',
-				'callback' => [ $this, 'get_editor_data' ],
-				'args' => [
-					'id' => [
-						'required' => true,
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_numeric( $param );
-						}
-					],
-				]
-			]);
-		} );
-
-		add_action( 'rest_api_init', function () {
-			register_rest_route( 'gutes-db/v1', '/(?P<id>\d+)', [
-				'methods' => 'POST',
-				'callback' => [ $this, 'save_editor_data' ],
-				'args' => [
-					'id' => [
-						'required' => true,
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_numeric( $param );
-						}
-					],
-					'gutes_data' => [
-						'required' => true,
-					],
-				]
-			]);
-		} );
+		add_action( 'rest_api_init', [ $this, 'gutes_db_api_init' ], 10 );
 	}
 
+	/**
+	 * API init
+	 */
+	public function gutes_db_api_init() {
+		// GET Gutes Data.
+		register_rest_route( $this->namespace, '/(?P<id>\d+)', [
+			'methods' => 'GET',
+			'callback' => [ $this, 'get_editor_data' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+			]
+		]);
+
+		// Get Gutes Revision.
+		register_rest_route( $this->namespace, '/revisions/(?P<id>\d+)', [
+			'methods' => 'GET',
+			'callback' => [ $this, 'get_revision_data' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+			]
+		]);
+
+		register_rest_route( $this->namespace, '/(?P<id>\d+)', [
+			'methods' => 'POST',
+			'callback' => [ $this, 'save_editor_data' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+				'gutes_data' => [
+					'required' => true,
+				],
+			]
+		]);
+	}
+
+	/**
+	 * Save Gutes Data.
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function save_editor_data( \WP_REST_Request $request ) {
 		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
 			return new \WP_Error( 'No Gutes', __( 'Missing Gutenberg', 'gutes-array' ) );
@@ -74,6 +99,13 @@ class API {
 
 	}
 
+	/**
+	 * Get Gutes Data.
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_editor_data( \WP_REST_Request $request ) {
 
 		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
@@ -104,6 +136,13 @@ class API {
 
 	}
 
+	/**
+	 * Check - does post contain Gutes?
+	 *
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
 	private function is_gutes( $post_id ) {
 		$post = get_post( $post_id );
 		// If new post, new content will exist.
@@ -113,6 +152,13 @@ class API {
 		return gutenberg_content_has_blocks( $post->post_content );
 	}
 
+	/**
+	 * Get Embedded post
+	 *
+	 * @param $post_id
+	 *
+	 * @return mixed
+	 */
 	private function get_embedded_post( $post_id ) {
 		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts' );
 		$request->set_query_params( [ 'per_page' => 12 ] );
@@ -121,6 +167,13 @@ class API {
 		return $server->response_to_data( $response, false );
 	}
 
+	/**
+	 * Get Gutes Data from DB.
+	 *
+	 * @param $post_id
+	 *
+	 * @return mixed
+	 */
 	public function get_editor_db( $post_id ) {
 		global $wpdb;
 
@@ -129,6 +182,14 @@ class API {
 		return $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = $post_id" );
 	}
 
+	/**
+	 * Save Gutes Data to DB.
+	 *
+	 * @param $post_id
+	 * @param $gutes_data
+	 *
+	 * @return mixed
+	 */
 	private function save_editor_db( $post_id, $gutes_data ) {
 		global $wpdb;
 
@@ -161,6 +222,32 @@ class API {
 			$wpdb->print_error();
 		}
 		return $update;
+	}
+
+	/**
+	 * Get Gutes data from revision.
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Request
+	 */
+	public function get_revision_data( \WP_REST_Request $request ) {
+
+		if ( ! function_exists( 'gutenberg_parse_blocks' ) ) {
+			return new \WP_Error( 'no gutes', __( 'No Gutes do_blocks' ) );
+		}
+
+		$data = $request->get_params();
+		$post_id = $data['id'];
+
+		$data['revisions'] = wp_get_post_revisions( $post_id );
+
+		foreach( $data['revisions'] as $key => $value ) {
+			$data['revisions'][$key]->editor_blocks = gutenberg_parse_blocks( $value->post_content );
+		}
+
+
+		return new \WP_REST_Response( $data );
 	}
 
 }

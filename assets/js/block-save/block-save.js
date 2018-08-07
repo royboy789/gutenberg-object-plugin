@@ -6,7 +6,6 @@ export class SaveBlock {
     this.lastIsSaving = false;
     this.lastDataSent = false;
 
-
     //wp.hooks.addFilter( 'blocks.getSaveElement', 'gutes-array', this.getSaveCallback.bind(this) );
   }
 

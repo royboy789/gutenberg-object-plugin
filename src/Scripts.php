@@ -13,6 +13,9 @@ class Scripts {
 
 	public function gutenbger_array_save_scripts() {
 		wp_enqueue_script( 'gutes-array-save', GutesArraySaveUrl . 'build/js/gutenberg-db.build.js', [ 'wp-blocks', 'wp-element' ], true );
+		wp_localize_script( 'gutes-array-save', 'gutesObjectPluginSettings', [
+			'nonce' => wp_create_nonce( 'wp_rest'),
+		]);
 	}
 
 }
