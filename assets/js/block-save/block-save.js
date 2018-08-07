@@ -20,6 +20,7 @@ export class SaveBlock {
    * @returns {*}
    */
   static getSaveCallback( elem, blockType, attr ) {
+    if ( 'core/paragraph' !== blockType.name ) { return elem; }
     console.log( 'getSaveCallback' );
     console.log( attr );
 
