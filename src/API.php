@@ -1,6 +1,6 @@
 <?php
 
-namespace GutenbergArray;
+namespace GutesObjectPlugin;
 
 use WP_REST_Posts_Controller;
 
@@ -8,49 +8,64 @@ use WP_REST_Posts_Controller;
  * Class API - this is where custom API routes are defined.
  * For the filter adding in editor_blocks to POST response see src/Hooks.php
  *
- * @package GutenbergArray
+ * @package GutesObjectPlugin
  */
 class API {
 
-	use Singleton;
-
 	private $version = '1';
 
+	/**
+	 * API constructor.
+	 * Init API
+	 *
+	 */
 	public function __construct() {
-		add_action( 'rest_api_init', function () {
-			register_rest_route( 'gutes-db/v' . $this->version, '/(?P<id>\d+)', [
-				'methods' => 'GET',
-				'callback' => [ $this, 'get_editor_data' ],
-				'args' => [
-					'id' => [
-						'required' => true,
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_numeric( $param );
-						}
-					],
-				]
-			]);
-		} );
-
-		add_action( 'rest_api_init', function () {
-			register_rest_route( 'gutes-db/v1', '/(?P<id>\d+)', [
-				'methods' => 'POST',
-				'callback' => [ $this, 'save_editor_data' ],
-				'args' => [
-					'id' => [
-						'required' => true,
-						'validate_callback' => function( $param, $request, $key ) {
-							return is_numeric( $param );
-						}
-					],
-					'gutes_data' => [
-						'required' => true,
-					],
-				]
-			]);
-		} );
+		add_action( 'rest_api_init', [ $this, 'gutes_array_api_init' ], 10 );
 	}
 
+	/**
+	 * Rest API Init Callback
+	 * Create Custom Endpoints
+	 *
+	 */
+	public function gutes_array_api_init() {
+		register_rest_route( 'gutes-db/v' . $this->version, '/(?P<id>\d+)', [
+			'methods' => 'GET',
+			'callback' => [ $this, 'get_editor_data' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+			]
+		]);
+
+		register_rest_route( 'gutes-db/v1', '/(?P<id>\d+)', [
+			'methods' => 'POST',
+			'callback' => [ $this, 'save_editor_data' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+				'gutes_data' => [
+					'required' => true,
+				],
+			]
+		]);
+	}
+
+	/**
+	 * POST Callback
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function save_editor_data( \WP_REST_Request $request ) {
 		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
 			return new \WP_Error( 'No Gutes', __( 'Missing Gutenberg', 'gutes-array' ) );
@@ -74,6 +89,13 @@ class API {
 
 	}
 
+	/**
+	 * GET Callback
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_editor_data( \WP_REST_Request $request ) {
 
 		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
@@ -104,6 +126,13 @@ class API {
 
 	}
 
+	/**
+	 * Is post using Gutes?
+	 *
+	 * @param $post_id
+	 *
+	 * @return bool
+	 */
 	private function is_gutes( $post_id ) {
 		$post = get_post( $post_id );
 		// If new post, new content will exist.
@@ -113,6 +142,14 @@ class API {
 		return gutenberg_content_has_blocks( $post->post_content );
 	}
 
+
+	/**
+	 * Get an embedded post
+	 *
+	 * @param $post_id
+	 *
+	 * @return array
+	 */
 	private function get_embedded_post( $post_id ) {
 		$request = new \WP_REST_Request( 'GET', '/wp/v2/posts' );
 		$request->set_query_params( [ 'per_page' => 12 ] );
@@ -121,6 +158,13 @@ class API {
 		return $server->response_to_data( $response, false );
 	}
 
+	/**
+	 * Get Data from DB
+	 *
+	 * @param $post_id
+	 *
+	 * @return array|null|object|void
+	 */
 	public function get_editor_db( $post_id ) {
 		global $wpdb;
 
@@ -129,11 +173,19 @@ class API {
 		return $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = $post_id" );
 	}
 
+	/**
+	 * Save Data to DB
+	 *
+	 * @param $post_id
+	 * @param $gutes_data
+	 *
+	 * @return false|int
+	 */
 	private function save_editor_db( $post_id, $gutes_data ) {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . "gutes_arrays";
-		$gutes_data_string = json_encode( $gutes_data );
+		$gutes_data_string = wp_json_encode( $gutes_data );
 		$existing_row = $this->get_editor_db( $post_id );
 
 		if ( ! is_object( $existing_row ) || ! $existing_row->id ) {

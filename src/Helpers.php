@@ -3,7 +3,7 @@
  * Helper Functions
  */
 
-use GutenbergArray\API;
+use GutesObjectPlugin\API;
 
 function get_editor_blocks( $post_id = false ) {
 	if ( ! $post_id ) {

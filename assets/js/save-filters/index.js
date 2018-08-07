@@ -15,6 +15,12 @@ import { CoreTable } from './core-table';
 import { CoreVerse } from './core-verse';
 import { CoreVideo } from './core-video';
 
+// WDS Blocks
+import { WDS_CallToAction_Block } from './wdsBlocks/call-to-action';
+import { WDS_Hero_Block } from "./wdsBlocks/hero";
+import { WDS_TwoColumn_Block } from "./wdsBlocks/two-column";
+import { WDS_RecentPosts_Block } from "./wdsBlocks/recent-posts";
+
 export class SaveFilters {
   constructor() {
     new CoreParagraph();
@@ -33,5 +39,13 @@ export class SaveFilters {
     new CoreTable();
     new CoreVerse();
     new CoreVideo();
+
+    // WDS Blocks
+    new WDS_CallToAction_Block();
+    new WDS_Hero_Block();
+    new WDS_TwoColumn_Block();
+    new WDS_RecentPosts_Block();
+
+
   }
 }

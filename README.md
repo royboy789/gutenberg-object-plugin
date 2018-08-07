@@ -45,4 +45,15 @@ __EXAMPLE__
 `wp.hooks.addFilter( 'clean_data_core-paragraph', 'gutes-array', callback );`  
 
 ## Helper Functions
-* `get_editor_blocks( $post_id );` - returns array of block data 
+* `<?php get_editor_blocks( $post_id ); ?>` - returns array of block data
+
+## Releases / Built Packages
+I will try to create packaged releases if you are not comforatble with using `composer`, `webpack`, or `npm` and just want to try this plugin on your site.
+
+Head over to the [Releases](https://github.com/royboy789/gutenberg-object-plugin/releases/tag/1.2.0) to download a packaged zip that is ready to use. 
+
+## Third Party Block Support
+
+If you have a plugin that adds blocks, just create an issue with a link to the plugin and I'll try to add in support!
+
+* [WebDevStudios (WDS) Blocks](https://github.com/WebDevStudios/WDS-Blocks)
