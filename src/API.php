@@ -20,7 +20,7 @@ class API {
 	 *
 	 */
 	public function __construct() {
-		add_action( 'rest_api_init', [ $this, 'gutes_array_api_init' ], 10 );
+		add_action( 'rest_api_init', [ $this, 'gutes_db_api_init' ], 10 );
 	}
 
 	/**
