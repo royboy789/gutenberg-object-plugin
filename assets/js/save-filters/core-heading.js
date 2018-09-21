@@ -8,7 +8,6 @@ export class CoreHeading extends CleanFilter {
 
   hookCallback( attributes, name, innerBlocks ) {
     attributes.content = wp.element.renderToString( attributes.content );
-    attributes.heading = attributes.nodeName.toLowerCase();
     return attributes;
   }
 
