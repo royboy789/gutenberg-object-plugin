@@ -6,9 +6,4 @@ export class CoreSubhead extends CleanFilter {
     super( 'core-subhead' );
   }
 
-  hookCallback( attributes, name, innerBlocks ) {
-    attributes.content = wp.element.renderToString( attributes.content );
-    return attributes;
-  }
-
 }

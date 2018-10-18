@@ -7,7 +7,6 @@ export class WDS_Hero_Block extends CleanFilter {
   }
 
   hookCallback( attributes, name, innerBlocks ) {
-    attributes.message = wp.element.renderToString( attributes.message );
     return attributes;
   }
 

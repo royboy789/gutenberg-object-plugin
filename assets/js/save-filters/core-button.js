@@ -6,9 +6,4 @@ export class CoreButton extends CleanFilter {
     super( 'core-button' );
   }
 
-  hookCallback( attributes, name, innerBlocks ) {
-    attributes.text = wp.element.renderToString( attributes.text );
-    return attributes;
-  }
-
 }
