@@ -8,6 +8,9 @@ The purpose of this plugin is to save Gutenberg (New WordPress Editor) data as a
 * `npm run dev` / `npm run build`
 * Activate plugin.
 
+## WIKI
+I am adding docs to the [WIKI](https://github.com/royboy789/gutenberg-object-plugin/wiki)
+
 ## WHY
 While the new UI for the WordPress Editor is amazing, the data as it is stored lends a lot ot be desired with HTML comments as a basis for data
 
