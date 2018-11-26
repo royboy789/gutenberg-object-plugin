@@ -6,11 +6,4 @@ export class CoreList extends CleanFilter {
     super( 'core-list' );
   }
 
-  hookCallback( attributes, name, innerBlocks ) {
-    for ( let [ index, value ] of attributes.values.entries() ) {
-      attributes.values[index] = wp.element.renderToString( attributes.values[index] );
-    }
-    return attributes;
-  }
-
 }

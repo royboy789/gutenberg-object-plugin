@@ -6,9 +6,4 @@ export class CorePreformatted extends CleanFilter {
     super( 'core-preformatted' );
   }
 
-  hookCallback( attributes, name, innerBlocks ) {
-    attributes.content = wp.element.renderToString( attributes.content );
-    return attributes;
-  }
-
 }
