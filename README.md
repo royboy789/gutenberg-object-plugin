@@ -67,7 +67,7 @@ function my_custom_cpts() {
 ## Releases / Built Packages
 I will try to create packaged releases if you are not comforatble with using `composer`, `webpack`, or `npm` and just want to try this plugin on your site.
 
-Head over to the [Releases](https://github.com/royboy789/gutenberg-object-plugin/releases/tag/1.2.0) to download a packaged zip that is ready to use. 
+Head over to the [Releases](https://github.com/royboy789/gutenberg-object-plugin/releases) to download a packaged zip that is ready to use. 
 
 ## Third Party Block Support
 
