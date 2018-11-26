@@ -6,11 +6,4 @@ export class CoreImage extends CleanFilter {
     super( 'core-image' );
   }
 
-  hookCallback( attributes, name, innerBlocks ) {
-    if ( attributes.caption ) {
-      attributes.caption = wp.element.renderToString( attributes.caption );
-    }
-    return attributes;
-  }
-
 }

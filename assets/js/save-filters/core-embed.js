@@ -6,9 +6,4 @@ export class CoreEmbed extends CleanFilter {
     super( 'core-embed' );
   }
 
-  hookCallback( attributes, name, innerBlocks ) {
-    attributes.caption = wp.element.renderToString( attributes.caption );
-    return attributes;
-  }
-
 }

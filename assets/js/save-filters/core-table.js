@@ -6,9 +6,4 @@ export class CoreTable extends CleanFilter {
     super( 'core-table' );
   }
 
-  hookCallback( attributes, name, innerBlocks ) {
-    attributes.content = wp.element.renderToString( attributes.content );
-    return attributes;
-  }
-
 }
