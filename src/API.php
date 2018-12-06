@@ -80,7 +80,7 @@ class API {
 	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function save_editor_data( \WP_REST_Request $request ) {
-		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
+		if ( ! function_exists( 'has_blocks' ) ) {
 			return new \WP_Error( 'No Gutes', __( 'Missing Gutenberg', 'gutes-array' ) );
 		}
 
@@ -111,7 +111,7 @@ class API {
 	 */
 	public function get_editor_data( \WP_REST_Request $request ) {
 
-		if ( ! function_exists( 'gutenberg_content_has_blocks' ) ) {
+		if ( ! function_exists( 'has_blocks' ) ) {
 			return new \WP_Error( 'No Gutes', __( 'Missing Gutenberg', 'gutes-array' ) );
 		}
 
@@ -152,7 +152,7 @@ class API {
 		if ( empty( $post->post_content ) ) {
 			return true;
 		}
-		return gutenberg_content_has_blocks( $post->post_content );
+		return has_blocks( $post->post_content );
 	}
 
 	/**
