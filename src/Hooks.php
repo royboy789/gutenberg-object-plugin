@@ -37,7 +37,7 @@ class Hooks {
 			return true;
 		}
 
-		if ( ! gutenberg_content_has_blocks( $post->post_content ) ) {
+		if ( ! has_blocks( $post->post_content ) ) {
 			return false;
 		}
 
