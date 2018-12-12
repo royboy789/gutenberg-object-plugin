@@ -7,22 +7,23 @@ export class SaveBlock {
     this.lastDataSent = false;
 
 
-    //wp.hooks.addFilter( 'blocks.getSaveElement', 'gutes-array', this.getSaveCallback.bind(this) );
+    wp.hooks.addFilter( 'blocks.getSaveElement', 'gutes-array', this.getSaveCallback );
   }
 
   /**
    *
-   * blocks.getSaveElement callback - leaving this here for possible debugging later.
+   * blocks.getSaveElement callback - store bid
    *
    * @param elem
    * @param blockType
    * @param attr
    * @returns {*}
    */
-  static getSaveCallback( elem, blockType, attr ) {
-    if ( 'core/paragraph' !== blockType.name ) { return elem; }
-    console.log( 'getSaveCallback' );
-    console.log( attr );
+  getSaveCallback( elem, blockType, attr ) {
+
+    if ( ! attr.bid ) {
+      attr.bid =  Math.floor((1 + Math.random()) * 0x10000).toString(16);
+    }
 
     return elem;
   }

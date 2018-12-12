@@ -3,6 +3,7 @@
 namespace GutesObjectPlugin;
 
 use WP_REST_Posts_Controller;
+use GutesObjectPlugin\BlockAPI;
 
 /**
  * Class API - this is where custom API routes are defined.
@@ -14,12 +15,15 @@ class API {
 
 	private $namespace = 'gutes-db/v1';
 
+	private $blockAPI;
+
 	/**
 	 * API constructor.
 	 * Init API
 	 *
 	 */
 	public function __construct() {
+		$this->blockAPI = new BlockAPI();
 		add_action( 'rest_api_init', [ $this, 'gutes_db_api_init' ], 10 );
 	}
 
@@ -27,6 +31,9 @@ class API {
 	 * API init
 	 */
 	public function gutes_db_api_init() {
+		// Register Block API
+		$this->blockAPI->init();
+
 		// GET Gutes Data.
 		register_rest_route( $this->namespace, '/(?P<id>\d+)', [
 			'methods' => 'GET',
