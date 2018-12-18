@@ -14,6 +14,7 @@ import { CoreSubhead } from './core-subheading';
 import { CoreTable } from './core-table';
 import { CoreVerse } from './core-verse';
 import { CoreVideo } from './core-video';
+import { CoreMediaText } from './core-media-text';
 
 // WDS Blocks
 import { WDS_CallToAction_Block } from './wdsBlocks/call-to-action';
@@ -39,6 +40,7 @@ export class SaveFilters {
     new CoreTable();
     new CoreVerse();
     new CoreVideo();
+    new CoreMediaText();
 
     // WDS Blocks
     new WDS_CallToAction_Block();
