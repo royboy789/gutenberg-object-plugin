@@ -84,7 +84,7 @@ export class SaveBlock {
     for ( let block of blocks ) {
       let blockName = block.name.replace( '/', '-' );
       newBlocks.push({
-        uid: block.uid,
+        uid: block.uid || block.clientId,
         name: block.name,
         data: wp.hooks.applyFilters( `clean_data_${blockName}`, block.attributes, block.name, block.innerBlocks )
       })
