@@ -36,6 +36,37 @@ class BlockAPI {
 				],
 			]
 		]);
+
+		// All blocks for a page
+		register_rest_route( 'wp/v2', 'pages/(?P<id>\d+)/blocks', [
+			'methods' => 'GET',
+			'callback' => [ $this, 'get_all_blocks' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+			]
+		]);
+
+		// Individual block
+		register_rest_route( 'wp/v2', 'pages/(?P<id>\d+)/blocks/(?P<bid>\S+)', [
+			'methods' => 'GET',
+			'callback' => [ $this, 'get_single_block' ],
+			'args' => [
+				'id' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					}
+				],
+				'bid' => [
+					'required' => true
+				],
+			]
+		]);
 	}
 
 	/**
@@ -79,6 +110,10 @@ class BlockAPI {
 			if ( $value->data->bid && $bid === $value->data->bid ) {
 				$block = $value;
 			}
+		}
+
+		if ( ! $block ) {
+			return new \WP_Error( 'no block found', 'Cannot find that block', array( 'status' => 404 ) );
 		}
 
 		return new \WP_REST_Response( $block );

@@ -3,7 +3,7 @@
  * @wordpress-plugin
  * Plugin Name:       Gutenberg Object Plugin
  * Description:       Saves Gutenberg data as array into DB & adds API to access it
- * Version:           1.5.0
+ * Version:           2.0.1
  * Author:            Roy Sivan
  * Author URI:        https://roysivan.com
  * License:           GPL-3.0+
