@@ -243,7 +243,7 @@ class API {
 	 */
 	public function get_revision_data( \WP_REST_Request $request ) {
 
-		if ( ! function_exists( 'gutenberg_parse_blocks' ) ) {
+		if ( ! function_exists( 'parse_blocks' ) ) {
 			return new \WP_Error( 'no gutes', __( 'No Gutes do_blocks' ) );
 		}
 
@@ -253,7 +253,7 @@ class API {
 		$data['revisions'] = wp_get_post_revisions( $post_id );
 
 		foreach( $data['revisions'] as $key => $value ) {
-			$data['revisions'][$key]->editor_blocks = gutenberg_parse_blocks( $value->post_content );
+			$data['revisions'][$key]->editor_blocks = parse_blocks( $value->post_content );
 		}
 
 
