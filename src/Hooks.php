@@ -14,16 +14,27 @@ class Hooks {
 	}
 
 	public function gutes_array_fields() {
-		register_rest_field( 'post', 'editor_blocks', [
-			'get_callback' => [ $this, 'get_block_data' ],
-		]);
+		$key_name = 'editor_blocks';
+		$post_types = get_post_types_by_support( [ 'editor' ] );
+
+		if ( !function_exists( 'use_block_editor_for_post_type' ) ) {
+			require ABSPATH . 'wp-admin/includes/post.php';
+		}
+
+		foreach ( $post_types as $post_type ) {
+			if ( use_block_editor_for_post_type( $post_type ) ) {
+				register_rest_field($post_type, $key_name, [
+					'get_callback' => [ $this, 'get_block_data' ],
+				]);
+			}
+		}
 
 		if ( defined( 'GUTENBERG_OBJECT_PLUGIN_CPTS' ) ) {
 			$cpts = GUTENBERG_OBJECT_PLUGIN_CPTS;
 			$cpts = explode( ',', $cpts );
 
 			foreach( $cpts as $cpt ) {
-				register_rest_field( $cpt, 'editor_blocks', [
+				register_rest_field( $cpt, $key_name, [
 					'get_callback' => [ $this, 'get_block_data' ],
 				]);
 			}
@@ -47,7 +58,5 @@ class Hooks {
 		}
 		return json_decode( $gutes_data->gutes_array );
 	}
-
-
 
 }
