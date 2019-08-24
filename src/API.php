@@ -72,6 +72,12 @@ class API {
 						return is_numeric( $param );
 					}
 				],
+				'is_in_preview' => [
+					'required' => true,
+					'validate_callback' => function( $param, $request, $key ) {
+						return $param;
+					}
+				],
 				'gutes_data' => [
 					'required' => true,
 				],
@@ -102,7 +108,7 @@ class API {
 
 		$return = [
 			'post_id' => $post_id,
-			'save' => $this->save_editor_db( $post_id, $data['gutes_data'] ),
+			'save' => $this->save_editor_db( $post_id, $data['gutes_data'], $data['is_in_preview'] ),
 		];
 
 		return new \WP_REST_Response( $return );
@@ -178,17 +184,57 @@ class API {
 	}
 
 	/**
+	 * Get table name
+	 *
+	 * @param $is_in_preview
+	 *
+	 * @return string
+	 */
+	private function get_table_name( $is_in_preview = false ) {
+		if ( $is_in_preview == "true" ) {
+			return "gutes_arrays_preview";
+		}
+
+		return "gutes_arrays";
+	}
+
+	/**
+	 * Check if row exists
+	 *
+	 * @param $existing_row
+	 *
+	 * @return boolean
+	 */
+	function row_exists( $existing_row ) {
+		return is_object( $existing_row ) || $existing_row->id;
+	}
+
+
+	/**
 	 * Get Gutes Data from DB.
 	 *
 	 * @param $post_id
 	 *
 	 * @return mixed
 	 */
-	public function get_editor_db( $post_id ) {
+	public function get_editor_db( $post_id, $is_in_preview = false, $force_preview = true ) {
 		global $wpdb;
 
+		$table_name = $wpdb->prefix . $this->get_table_name( $is_in_preview );
+		$table_name_preview = $wpdb->prefix . $this->get_table_name( true );
+		$existing_preview_row = $wpdb->get_row( "SELECT * FROM $table_name_preview WHERE post_id = $post_id" );
+
+		if ( $this->row_exists( $existing_preview_row && $is_in_preview == "false" ) ) {
+			return $existing_preview_row;
+		}
+
+		// check if preview table exists, if not it should go back to basic
+		// this behavior is not wanted if the preview data should get set
+		if ( ! $this->row_exists( $existing_preview_row ) && $is_in_preview == "true" && ! $force_preview ) {
+			$table_name = $wpdb->prefix . $this->get_table_name();
+		}
+
 		$post_id = (int) $post_id;
-		$table_name = $wpdb->prefix . "gutes_arrays";
 		return $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = $post_id" );
 	}
 
@@ -197,17 +243,33 @@ class API {
 	 *
 	 * @param $post_id
 	 * @param $gutes_data
+	 * @param $is_in_preview
 	 *
 	 * @return mixed
 	 */
-	private function save_editor_db( $post_id, $gutes_data ) {
+	private function save_editor_db( $post_id, $gutes_data, $is_in_preview ) {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . "gutes_arrays";
+		$table_name = $wpdb->prefix . $this->get_table_name( $is_in_preview );
 		$gutes_data_string = wp_json_encode( $gutes_data );
-		$existing_row = $this->get_editor_db( $post_id );
+		$existing_row = $this->get_editor_db( $post_id, $is_in_preview );
 
-		if ( ! is_object( $existing_row ) || ! $existing_row->id ) {
+		// should delete preview row if this post is saving
+		if ( $is_in_preview == "false" ) {
+			$table_name_preview = $wpdb->prefix . $this->get_table_name( true );
+			$delete =  $wpdb->query( $wpdb->prepare(
+					"DELETE FROM $table_name_preview WHERE post_id = %d",
+					[
+						$post_id
+					]
+			));
+
+			if ( ! $delete ) {
+				$wpdb->print_error();
+			}
+		}
+
+		if ( ! $this->row_exists( $existing_row ) ) {
 			$insert =  $wpdb->query( $wpdb->prepare(
 					"INSERT INTO $table_name SET post_id = %d, gutes_array = '%s'",
 					[

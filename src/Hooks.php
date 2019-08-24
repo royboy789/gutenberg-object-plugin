@@ -41,7 +41,7 @@ class Hooks {
 			return false;
 		}
 
-		$gutes_data = $this->api->get_editor_db( $post->ID );
+		$gutes_data = $this->api->get_editor_db( $post->ID, $_GET["preview"] == "true", false );
 		if ( ! is_object( $gutes_data ) ) {
 			return 'Error Getting Editor DB ' . $post->ID;
 		}

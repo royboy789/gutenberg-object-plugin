@@ -56,7 +56,8 @@ export class SaveBlock {
         path: '/gutes-db/v1/' + postId,
         data: {
           post_id: postId,
-          gutes_data: blocks_dup.length ? JSON.stringify( blocks_dup ) : false
+          gutes_data: blocks_dup.length ? JSON.stringify( blocks_dup ) : false,
+          is_in_preview: editor.isPreviewingPost(),
         },
         method: 'POST',
         dataType: 'json',
